@@ -1,52 +1,78 @@
 package com.knoldus.typesystem.contravariance
 
-object WhyContraVariance {
+/**
+  * LISKOV SUBSTITUTION PRINCIPLE:
+  * If B <:(sub type) of A, then everything action we are performing with A type, should also able to do with
+  * type B.
+  *  --- OR
+  * If we could be able to place B on all the places where the action performed by A with success,
+  * we can say that B <:(sub type) of A
+  */
+object WhyContraVariance extends App {
 
     abstract class Vehicle
-    class Car extends Vehicle
-    case class ACar() extends Car {
+
+    class FourWheeler extends Vehicle
+
+    class Car extends FourWheeler {
+        def goodEngine : String = "Good Engine"
+    }
+
+    case class Mustang() extends Car {
         def powerfulEngine : String = "Powerful Engine"
     }
-    case class BCar() extends Car {
-        def powerfulSuspensions : String = "Powerful Suspensions"
+
+    case class Ferrari() extends Car {
+        def superbEngine : String = "Superb Engine"
     }
 
-    class Washing[-T] {
-        def startWashing(vehicle: T) : Boolean = ???
+    // Contra-Variance Type
+    abstract class Washing[-T] {
+        def startWashing(vehicle: T) : Boolean
     }
 
-    def washYourVehicle(wash : Washing[Car], car: Car) = {
+    def washYourCar(wash : Washing[Car], car: Car) : Boolean = {
         wash.startWashing(car)
     }
 
-    /*
+    /******************************* EXPLANATION ********************************/
+    // Why "Contra-Variance allows only Super-Type not Sub Type"
 
-    ==  val carWashing = new Washing[Car]
+    val fourWheeler = new Washing[FourWheeler] {
+        override def startWashing(vehicle : FourWheeler) : Boolean = {
+            // use some car specific methods
+            true
+        }
+    }
 
-        -- My Expectations:
-            class Washing[Car] {
-                def startWashing(vehicle: Car) : Boolean = {
-                    // now I can use all Car methods
-                }
-            }
+    val carWashing = new Washing[Car] {
+        override def startWashing(vehicle : Car) : Boolean = {
+            // use some car specific methods like "goodEngine"
+            true
+        }
+    }
 
-    ==  val aCarWashing = new Washing[ACar]
-            class Washing[ACar] {
-                def startWashing(vehicle: ACar) : Boolean = {
-                    // now I can use all ACar methods which is powerfulEngine
-                }
-            }
+    val mustangWashing = new Washing[Mustang] {
+        override def startWashing(vehicle : Mustang) : Boolean = {
+            // use some car specific methods like "powerfulEngine"
+            true
+        }
+    }
 
-    ==  val bCarWashing = new Washing[BCar]
-            class Washing[BCar] {
-                def startWashing(vehicle: BCar) : Boolean = {
-                    // now I can use all ACar methods which is powerfulSuspensions
-                }
-            }
+    /***** ACTIONS *****/
+    washYourCar(carWashing, new Car) // No problem because we are passing Washing[Car] type
+
+//    washYourCar(mustangWashing, new Car) // Not possible, because we breaking the LISKOV SUBSTITUTION PRINCIPLE
+
+    washYourCar(fourWheeler, new Car) // No problem with that, because it follows LISKOV SUBSTITUTION PRINCIPLE
 
 
-     Question: Now, if contra-variance allows us to pass sub class, is it make sense
-     we are calling washYourVehicle(bCarWashing, ACar())
-
-     */
+    /**
+      * Question: Now, if contra-variance allows us to pass sub class, is it make sense we are calling with
+      * washYourVehicle(mustangWashing, Ferrari()) ?
+      *
+      * Answer: Mustang and Ferrari are siblings, there is no relations with that, if it allows, it could be the chances of
+      * runtime exceptions or un-defined behaviour
+      *
+      */
 }
