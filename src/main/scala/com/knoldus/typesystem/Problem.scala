@@ -1,11 +1,10 @@
 package com.knoldus.typesystem
 
+import cats.Functor
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object Problem extends App {
-
-    def stringLength: String => Int = _.length
 
     def lengthOfString(string: String): Int = string.length
 
@@ -21,12 +20,11 @@ object Problem extends App {
 
     // Let's create generic method for above operations
 
-    //    def genericLengthOfString[T](string: T)(implicit f: Functor[T]) = {}
+//        def genericLengthOfString[T](string: T)(implicit f: Functor[T]) = {}
 
 
 
     /**
-      * Why Functor Require F[_] ???
       *
       * --- Pass String
       * def genericLengthOfString[String](string: String)(implicit f: Functor[String])  {
