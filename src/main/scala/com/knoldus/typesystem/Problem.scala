@@ -31,5 +31,8 @@ object Problem extends App {
     sumAny(2.0, 4.3)
     sumAny("One", "Two")
 
+
+    sumAny(new AnyRef, new AnyRef)
+    
     // Question: What are the problems we are facing during sumAnyVal and sumAny methods???
 }
