@@ -12,7 +12,7 @@ object Problem extends App {
         case (a: Int, b: Int) => a + b
         case (a: Float, b: Float) => a + b
         case (a: Double, b: Double) => a + b
-        case _ => 0
+        case _ => throw new RuntimeException
     }
 
     sumAnyVal(1, 2)
@@ -24,7 +24,7 @@ object Problem extends App {
         case (a: Int, b: Int) => a + b
         case (a: Double, b: Double) => a + b
         case (a: String, b: String) => a + b
-        case _ => "match error"
+        case _ => throw new RuntimeException
     }
 
     sumAny(1, 2)
@@ -33,6 +33,6 @@ object Problem extends App {
 
 
     sumAny(new AnyRef, new AnyRef)
-    
+
     // Question: What are the problems we are facing during sumAnyVal and sumAny methods???
 }
