@@ -32,7 +32,7 @@ object Problem extends App {
     sumAny("One", "Two")
 
 
-    sumAny(new AnyRef, new AnyRef)
+//    sumAny(new AnyRef, new AnyRef)
 
     // Question: What are the problems we are facing during sumAnyVal and sumAny methods???
 }
