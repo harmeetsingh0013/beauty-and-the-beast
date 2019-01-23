@@ -2,24 +2,23 @@ package com.knoldus.typesystem
 
 object Solution extends App {
 
-    trait Food
-    trait FastFood extends Food
-    trait HealthyFood extends Food
+    trait Employee
+    class SecretAgents extends Employee
+    class OfficeAgents extends Employee
 
-    class Burger extends FastFood
-    class Noodles extends FastFood
+    class SecretAgentsGrade1 extends SecretAgents
+    class SecretAgentsGrade2 extends SecretAgents
 
-    class Vegetables extends HealthyFood
-    class Fruits extends HealthyFood
+    class Confidentials
 
-    case class Box(food: Food)
-
-    class Store {
-        def orderYourFastFood[T >: Burger <: Burger]: Box = Box(new Burger)
+    def confidentials[T >: SecretAgentsGrade1 <: SecretAgents](secretAgents: T) : Confidentials = {
+        new Confidentials
     }
 
-    val store = new Store
-    store.orderYourFastFood[Burger]
-    //    store.orderYourFastFood[Noodles]
-    //    store.orderYourFastFood[FastFood]
+    val secretAgentsGrade1 = new SecretAgentsGrade1
+    val secretAgentsGrade2 = new SecretAgentsGrade2
+
+    confidentials[SecretAgentsGrade1](secretAgentsGrade1)
+//    confidentials[SecretAgentsGrade2](secretAgentsGrade2)
+
 }
