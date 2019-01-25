@@ -2,26 +2,36 @@ package com.knoldus.typesystem
 
 object Problem extends App {
 
-    trait Employee
-    class SecretAgents extends Employee
-    class OfficeAgents extends Employee
+    trait Food
+    trait FastFood extends Food
+    trait HealthyFood extends Food
 
-    class SecretAgentsGrade1 extends SecretAgents
-    class SecretAgentsGrade2 extends SecretAgents
+    class Burger extends FastFood
+    class Noodles extends FastFood
 
-    class Confidentials
+    class Vegetables extends HealthyFood
+    class Fruits extends HealthyFood
 
-    def confidentials(secretAgents: SecretAgents) : Confidentials = {
-        if(secretAgents.isInstanceOf[SecretAgentsGrade1]) {
-            new Confidentials
-        } else {
-            throw new RuntimeException
+    case class Box(food: Food)
+
+    class Store {
+        def orderYourHealthyFood(food: String): Box = food match {
+            case "Vegetables" => Box(new Vegetables)
+            case "Fruits" => Box(new Fruits)
+        }
+        
+        def orderYourFastFood(fastFood: String): Box = fastFood match {
+            case "Burger" => Box(new Burger)
+            //        case "Noodles" => Box(new Noodles) // Out of order
+            case _ => throw new RuntimeException
         }
     }
 
-    val secretAgentsGrade1 = new SecretAgentsGrade1
-    val secretAgentsGrade2 = new SecretAgentsGrade2
+    val store = new Store
+    store.orderYourHealthyFood("Vegetables")
+    store.orderYourHealthyFood("Fruits")
 
-    confidentials(secretAgentsGrade1)
-//    confidentials(secretAgentsGrade2)
+    store.orderYourFastFood("Burger")
+    //store.orderYourFastFood("Noodles")
+
 }
