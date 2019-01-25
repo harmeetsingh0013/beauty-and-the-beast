@@ -19,11 +19,11 @@ object Problem extends App {
             case "Vegetables" => Box(new Vegetables)
             case "Fruits" => Box(new Fruits)
         }
-        
+
         def orderYourFastFood(fastFood: String): Box = fastFood match {
             case "Burger" => Box(new Burger)
             //        case "Noodles" => Box(new Noodles) // Out of order
-            case _ => throw new RuntimeException
+            case _ => throw OutOfOrder
         }
     }
 
@@ -35,3 +35,5 @@ object Problem extends App {
     //store.orderYourFastFood("Noodles")
 
 }
+
+case object OutOfOrder extends RuntimeException
