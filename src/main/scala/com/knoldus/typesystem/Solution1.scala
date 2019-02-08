@@ -1,6 +1,6 @@
 package com.knoldus.typesystem
 
-object Solution extends App {
+object Solution1 extends App {
 
     trait Fruit
     class Apple extends Fruit
@@ -12,9 +12,9 @@ object Solution extends App {
     class SouthIndiaOrange extends Orange
 
     class Box[+T]() {
-        def wrapTheFruit[U >: T](a: U): Box[U] = {
+        def wrapTheFruit[U >: T <: Fruit](a: U): Box[U] = {
             // pack the fruit in box
-             new Box[U]
+            new Box[U]
         }
     }
 
@@ -22,7 +22,6 @@ object Solution extends App {
     new Box[Fruit].wrapTheFruit(new NorthIndiaApple)
     new Box[Fruit].wrapTheFruit(new Orange)
     new Box[Fruit].wrapTheFruit(new NorthIndiaOrange)
-
 
 //    new Box[Fruit].wrapTheFruit(new AnyRef)
 
